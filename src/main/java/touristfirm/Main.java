@@ -1,32 +1,30 @@
 package touristfirm;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Використовуємо класи Tour і TouristFirm
+        // Створення турів з різними датами
         List<Tour> tourList = new ArrayList<>(Arrays.asList(
-                new Tour("Europe Adventure", 10, 1500),
-                new Tour("Asia Discovery", 15, 1200),
-                new Tour("America Highlights", 7, 1800),
-                new Tour("Africa Safari", 12, 1400)
+                new Tour("Europe Adventure", 10, 1500, LocalDate.of(2022, 5, 10)),
+                new Tour("Asia Discovery", 15, 1200, LocalDate.of(2023, 6, 15)),
+                new Tour("America Highlights", 7, 1800, LocalDate.of(2021, 11, 20)),
+                new Tour("Africa Safari", 12, 1400, LocalDate.of(2022, 8, 25))
         ));
 
-        TouristFirm touristFirm = new TouristFirm(tourList);
+        // Дата заснування фірми
+        LocalDate foundationDate = LocalDate.of(2000, 1, 1);
 
-        System.out.println("Тури дешевші за 1600:");
-        List<Tour> cheapTours = touristFirm.findToursCheaperThan(1600);
-        cheapTours.forEach(System.out::println);
+        // Створюємо об'єкт туристичної фірми
+        TouristFirm touristFirm = new TouristFirm("Global Tours", foundationDate, tourList);
 
-        System.out.println("\nТури, відсортовані за тривалістю:");
-        List<Tour> sortedToursByDuration = touristFirm.sortToursByDuration();
-        sortedToursByDuration.forEach(System.out::println);
+        // Створюємо об'єкт для сервісних методів
+        TourService tourService = new TourService();
 
-        System.out.println("\nПошук туру за назвою 'Asia Discovery':");
-        touristFirm.findTourByName("Asia Discovery")
-                .ifPresentOrElse(System.out::println, () -> System.out.println("Тур не знайдено"));
-
-        System.out.println("\nВсі доступні тури:");
-        touristFirm.printAllTours();
+        // Виведення турів, відсортованих за датою створення
+        System.out.println("Тури, відсортовані за датою створення:");
+        List<Tour> sortedByCreationDate = tourService.sortToursByCreationDate(tourList);
+        sortedByCreationDate.forEach(System.out::println);
     }
 }
